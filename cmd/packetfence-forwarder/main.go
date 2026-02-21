@@ -26,9 +26,9 @@ func main() {
 	wg := &sync.WaitGroup{}
 	for _, f := range forwarders {
 		wg.Add(1)
-		go func(f *forwarder.InterfaceForwarder) {
+		go func(f *forwarder.InterfaceForwarder) {///
 			defer wg.Done()
-			f.HandlePackets()
+			f.HandlePackets()///
 			//logger.Info(1, "Forwarding packets to: "+host+" on udp port "+port)
 		}(f)
 	}

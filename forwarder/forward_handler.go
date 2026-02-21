@@ -17,7 +17,7 @@ func (fh *InterfaceForwarder) HandlePackets() {
 		rawPacket := packet.Data()
 		for _, forwarder := range fh.forwarders {
 			if forwarder.BPF.Matches(captureInfo, rawPacket) {
-				forwarder.Handler.Forward(packet)
+				forwarder.Handler.Forward(packet)///
 			}
 		}
 	}

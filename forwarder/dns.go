@@ -2,7 +2,8 @@ package forwarder
 
 import (
 	"net"
-
+    // "fmt"
+	// "github.com/google/logger"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
 )
@@ -36,7 +37,10 @@ func addSrcDstRR(dns *layers.DNS, code layers.DNSOptionCode, src, dst net.IP) {
 	var rr *layers.DNSResourceRecord = nil
 
 	// find the last resource record
-	for i := len(dns.Additionals) - 1; i >= 0; i++ {
+	// logger.Info(1, "Length of additionals before: "+string(len(dns.Additionals)))
+	// logger.Info(1, "Additionals: "+fmt.Sprintf("%+v", dns.Additionals))
+	rr = nil
+	for i := range dns.Additionals {
 		if dns.Additionals[i].Type == layers.DNSTypeOPT {
 			rr = &dns.Additionals[i]
 			break
@@ -75,7 +79,7 @@ func (h *DNSHandler) Forward(p gopacket.Packet) error {
 		return err
 	}
 
-	addSrcDstRR(&dns, PFForwardSrcDst, ipv4.SrcIP, ipv4.DstIP)
+	addSrcDstRR(&dns, PFForwardSrcDst, ipv4.SrcIP, ipv4.DstIP)///
 	buf := gopacket.NewSerializeBuffer()
 	opts := gopacket.SerializeOptions{FixLengths: true}
 	if err := dns.SerializeTo(buf, opts); err != nil {
